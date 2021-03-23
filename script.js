@@ -1,15 +1,3 @@
-function getCookie(name) {
-  var nameEQ = name + '=';
-  var ca = document.cookie.split(';');
-  for (var i = 0; i < ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-  }
-  return null;
-}
-
-
 const bannerTemplate = (language) => {
   return `
 <div class="banner-container" id="cookieBannerContainer">
@@ -24,8 +12,8 @@ const bannerTemplate = (language) => {
 `;
 };
 
-const cookieModalTemplate = (language) =>{
-    return `<div id="settingsModal" class="modal">
+const cookieModalTemplate = (language) => {
+  return `<div id="settingsModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
         <span class="modal-header-text">Cookie Settings Modal</span>
@@ -46,28 +34,69 @@ const cookieModalTemplate = (language) =>{
           without these cookies.
         </p>
         <div>
-          <input type="checkbox" id="statisticCheck" name="statisticCheck" checked />
-          <label for="statisticCheck">Statistic</label>
+          <input type="checkbox" id="googleAnalyticsCheck" name="googleAnalyticsCheck" checked />
+          <label for="googleAnalyticsCheck">Google Analytics</label>
         </div>
         <p>
-          Statistic cookies help website owners to understand how visitors interact with websites by
+          Google Analytics cookies help website owners to understand how visitors interact with websites by
           collecting and reporting information anonymously.
         </p>
         <div>
-          <input type="checkbox" id="marketingCheck" name="marketingCheck" checked />
-          <label for="marketingCheck">Marketing</label>
+          <input type="checkbox" id="fbPixelCheck" name="fbPixelCheck" checked />
+          <label for="fbPixelCheck">Facebook Pixel</label>
         </div>
         <p>
-          Marketing cookies are used to track visitors across websites. The intention is to display
-          ads that are relevant and engaging for the individual user and thereby more valuable for
-          publishers and third party advertisers.
+        Facebook Pixel cookies help website owners to understand how visitors interact with websites by
+        collecting and reporting information anonymously.
         </p>
         <div class="button-container">
           <button class="button" id="saveSettingsBtn">Save</button>
         </div>
       </div>
     </div>
-  </div>`
+  </div>`;
+};
+
+function setGoogleAnalyticsCookies() {
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag('js', new Date());
+
+  gtag('config', 'G-335PYRBTD7');
+}
+
+function setFacebookPixelCookies() {
+  !(function (f, b, e, v, n, t, s) {
+    if (f.fbq) return;
+    n = f.fbq = function () {
+      n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+    };
+    if (!f._fbq) f._fbq = n;
+    n.push = n;
+    n.loaded = !0;
+    n.version = '2.0';
+    n.queue = [];
+    t = b.createElement(e);
+    t.async = !0;
+    t.src = v;
+    s = b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t, s);
+  })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '498855108143058');
+  fbq('track', 'PageView');
+}
+
+function getCookie(name) {
+  var nameEQ = name + '=';
+  var ca = document.cookie.split(';');
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
 }
 
 function checkIfConsentCookieIsDismissed() {
@@ -135,11 +164,13 @@ function setCookie(name, value, days) {
 }
 
 saveSettingsBtn.onclick = function () {
-  var isStatisticChecked = document.getElementById('statisticCheck').checked;
-  var isMarketingChecked = document.getElementById('marketingCheck').checked;
-  console.log('statisticCheck:', isStatisticChecked);
-  console.log('marketingCheck:', isMarketingChecked);
+  var isGoogleAnalyticsCheck = document.getElementById('googleAnalyticsCheck').checked;
+  var isFbPixelCheck = document.getElementById('fbPixelCheck').checked;
+  console.log('isGoogleAnalyticsCheck :', isGoogleAnalyticsCheck);
+  console.log('isFbPixelCheck:', isFbPixelCheck);
   setCookie('cookieconsent_dismissed', 'yes', 10);
+  if (isGoogleAnalyticsCheck) setGoogleAnalyticsCookies();
+  if (isFbPixelCheck) setFacebookPixelCookies();
   closeModal();
   hideBanner();
 };

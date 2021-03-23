@@ -12,7 +12,7 @@ function getCookie(name) {
 
 const bannerTemplate = (language) => {
   return `
-<div class="banner-container" id="bannerContainer">
+<div class="banner-container" id="cookieBannerContainer">
   <span class="header-text">${getBannerHeaderText(language)}</span>
   <p>${getBannerInfoText(language)}
   </p>
@@ -24,17 +24,65 @@ const bannerTemplate = (language) => {
 `;
 };
 
+const cookieModalTemplate = (language) =>{
+    return `<div id="settingsModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="modal-header-text">Cookie Settings Modal</span>
+        <span id="closeIcon" class="close">&times;</span>
+      </div>
+      <div class="modal-body">
+        <p>
+          This site uses different types of cookies. Some cookies are placed by third party services
+          that appear on our pages.
+        </p>
+        <div>
+          <input type="checkbox" id="necessaryCheck" name="necessaryCheck" checked disabled />
+          <label for="necessaryCheck">Necessary</label>
+        </div>
+        <p>
+          Necessary cookies help make a website usable by enabling basic functions like page
+          navigation and access to secure areas of the website. The website cannot function properly
+          without these cookies.
+        </p>
+        <div>
+          <input type="checkbox" id="statisticCheck" name="statisticCheck" checked />
+          <label for="statisticCheck">Statistic</label>
+        </div>
+        <p>
+          Statistic cookies help website owners to understand how visitors interact with websites by
+          collecting and reporting information anonymously.
+        </p>
+        <div>
+          <input type="checkbox" id="marketingCheck" name="marketingCheck" checked />
+          <label for="marketingCheck">Marketing</label>
+        </div>
+        <p>
+          Marketing cookies are used to track visitors across websites. The intention is to display
+          ads that are relevant and engaging for the individual user and thereby more valuable for
+          publishers and third party advertisers.
+        </p>
+        <div class="button-container">
+          <button class="button" id="saveSettingsBtn">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>`
+}
+
 function checkIfConsentCookieIsDismissed() {
   const isCookieSet = getCookie('cookieconsent_dismissed');
   console.log('isCookieSet', isCookieSet);
-  // Add bannerTemplate to site
-  const bannerNode = document.createElement('div');
-  bannerNode.innerHTML = bannerTemplate('DE');
-  document.getElementsByTagName('body')[0].append(bannerNode);
+  // Add cookieBannerTemplate and cookieModalTemplate to site
+  const cookieBannerNode = document.createElement('div');
+  cookieBannerNode.innerHTML = bannerTemplate('DE');
+  const cookieModalNode = document.createElement('div');
+  cookieModalNode.innerHTML = cookieModalTemplate('DE');
+  document.getElementsByTagName('body')[0].append(cookieBannerNode);
+  document.getElementsByTagName('body')[0].append(cookieModalNode);
   if (isCookieSet !== 'yes') {
-    const bannerContainer = document.getElementById('bannerContainer');
-    debugger;
-    bannerContainer.style.display = 'block';
+    const cookieBannerContainer = document.getElementById('cookieBannerContainer');
+    cookieBannerContainer.style.display = 'block';
   }
 }
 
@@ -61,7 +109,7 @@ function closeModal() {
 }
 
 function hideBanner() {
-  bannerContainer.style.display = 'none';
+  cookieBannerContainer.style.display = 'none';
 }
 
 // When the user clicks on <span> (x), close the modal

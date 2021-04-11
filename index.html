@@ -10,14 +10,19 @@
          var jsvar = <?php echo json_encode($PHPVar); ?>;
          </script>
          -->
-    <link
-      href="https://fonts.googleapis.com/css?family=Nunito+Sans:300i,400,700&display=swap"
-      rel="stylesheet"
-    />
     <link href="styles.css" rel="stylesheet" />
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-335PYRBTD7"></script>
+    <!-- Load library for translations -->
+    <script src="https://unpkg.com/i18next/i18next.js"></script>
+    <div style="margin: 40px">
+      <button onclick="i18next.changeLanguage('en')">EN</button>
+      <button onclick="i18next.changeLanguage('de')">DE</button>
+      <button onclick="i18next.changeLanguage('es')">ES</button>
+    </div>
+    <!-- Load cookie scripts -->
+    <script src="script.js"></script>
   </head>
   <body>
     <div style="padding: 20px 20px">
@@ -144,7 +149,5 @@
         rhoncus. Donec eget elit a felis luctus efficitur. Sed consequat posuere ultrices.
       </p>
     </div>
-    <script src="translations.js"></script>
-    <script src="script.js"></script>
   </body>
 </html>

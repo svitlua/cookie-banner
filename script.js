@@ -1,61 +1,50 @@
-const bannerTemplate = (language) => {
-  return `
+const bannerTemplate = () => `
 <div class="banner-container" id="cookieBannerContainer">
-  <span class="header-text">${getBannerHeaderText(language)}</span>
-  <p>${getBannerInfoText(language)}
+  <span class="header-text">${i18next.t('banner_header')}</span>
+  <p>${i18next.t('banner_info_text')}
   </p>
   <div>
-    <button id="settingsBtn" class="button">${getBannerSettingsBtnLabel(language)}</button>
-    <button id="acceptAllBtn" class="button">${getBannerAcceptAllBtnLabel(language)}</button>
+    <button id="settingsBtn" class="button">${i18next.t('settings')}</button>
+    <button id="acceptAllBtn" class="button">${i18next.t('accept_all')}</button>
   </div>
 </div>
 `;
-};
 
-const cookieModalTemplate = (language) => {
-  return `<div id="settingsModal" class="modal">
+const settingsTemplate = () => `<div id="settingsModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
         <span class="modal-header-text">Cookie Settings Modal</span>
         <span id="closeIcon" class="close">&times;</span>
       </div>
       <div class="modal-body">
-        <p>
-          This site uses different types of cookies. Some cookies are placed by third party services
-          that appear on our pages.
-        </p>
+        <p>${i18next.t('settings_info')}</p>
         <div>
           <input type="checkbox" id="necessaryCheck" name="necessaryCheck" checked disabled />
-          <label for="necessaryCheck">Necessary</label>
+          <label for="necessaryCheck">${i18next.t('necessary')}</label>
         </div>
         <p>
-          Necessary cookies help make a website usable by enabling basic functions like page
-          navigation and access to secure areas of the website. The website cannot function properly
-          without these cookies.
+        ${i18next.t('necessary_description')}
         </p>
         <div>
           <input type="checkbox" id="googleAnalyticsCheck" name="googleAnalyticsCheck" checked />
-          <label for="googleAnalyticsCheck">Google Analytics</label>
+          <label for="googleAnalyticsCheck">${i18next.t('googleAnalytics')}</label>
         </div>
         <p>
-          Google Analytics cookies help website owners to understand how visitors interact with websites by
-          collecting and reporting information anonymously.
+        ${i18next.t('googleAnalytics_description')}
         </p>
         <div>
           <input type="checkbox" id="fbPixelCheck" name="fbPixelCheck" checked />
-          <label for="fbPixelCheck">Facebook Pixel</label>
+          <label for="fbPixelCheck">${i18next.t('otherCookie')}</label>
         </div>
         <p>
-        Facebook Pixel cookies help website owners to understand how visitors interact with websites by
-        collecting and reporting information anonymously.
+        ${i18next.t('otherCookie_description')}
         </p>
         <div class="button-container">
-          <button class="button" id="saveSettingsBtn">Save</button>
+          <button class="button" id="saveSettingsBtn">${i18next.t('save')}</button>
         </div>
       </div>
     </div>
   </div>`;
-};
 
 function setGoogleAnalyticsCookies() {
   window.dataLayer = window.dataLayer || [];
@@ -66,6 +55,27 @@ function setGoogleAnalyticsCookies() {
 
   gtag('config', 'G-335PYRBTD7');
 }
+
+// <!-- Google Analytics -->
+// <script>
+// (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+// (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+// m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+// })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+// ga('create', 'UA-XXXXX-Y', 'auto');
+// ga('send', 'pageview');
+// </script>
+// <!-- End Google Analytics -->
+
+// <!-- Google Analytics -->
+// <script>
+// window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+// ga('create', 'UA-XXXXX-Y', 'auto');
+// ga('send', 'pageview');
+// </script>
+// <script async src='https://www.google-analytics.com/analytics.js'></script>
+// <!-- End Google Analytics -->
 
 function setFacebookPixelCookies() {
   !(function (f, b, e, v, n, t, s) {
@@ -99,60 +109,6 @@ function getCookie(name) {
   return null;
 }
 
-function checkIfConsentCookieIsDismissed() {
-  const isCookieSet = getCookie('cookieconsent_dismissed');
-  console.log('isCookieSet', isCookieSet);
-  // Add cookieBannerTemplate and cookieModalTemplate to site
-  const cookieBannerNode = document.createElement('div');
-  cookieBannerNode.innerHTML = bannerTemplate('DE');
-  const cookieModalNode = document.createElement('div');
-  cookieModalNode.innerHTML = cookieModalTemplate('DE');
-  document.getElementsByTagName('body')[0].append(cookieBannerNode);
-  document.getElementsByTagName('body')[0].append(cookieModalNode);
-  if (isCookieSet !== 'yes') {
-    const cookieBannerContainer = document.getElementById('cookieBannerContainer');
-    cookieBannerContainer.style.display = 'block';
-  }
-}
-
-checkIfConsentCookieIsDismissed();
-
-// Get the modal
-var settingsModal = document.getElementById('settingsModal');
-
-// Get the button that opens the modal
-var settingsBtn = document.getElementById('settingsBtn');
-
-var saveSettingsBtn = document.getElementById('saveSettingsBtn');
-
-// Get the <span> element that closes the modal
-var span = document.getElementById('closeIcon');
-
-// When the user clicks the button, open the modal
-settingsBtn.onclick = function () {
-  settingsModal.style.display = 'block';
-};
-
-function closeModal() {
-  settingsModal.style.display = 'none';
-}
-
-function hideBanner() {
-  cookieBannerContainer.style.display = 'none';
-}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function () {
-  closeModal();
-};
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
-  if (event.target == settingsModal) {
-    closeModal();
-  }
-};
-
 function setCookie(name, value, days) {
   var expires = '';
   if (days) {
@@ -163,14 +119,152 @@ function setCookie(name, value, days) {
   document.cookie = name + '=' + (value || '') + expires + '; path=/';
 }
 
-saveSettingsBtn.onclick = function () {
-  var isGoogleAnalyticsCheck = document.getElementById('googleAnalyticsCheck').checked;
-  var isFbPixelCheck = document.getElementById('fbPixelCheck').checked;
-  console.log('isGoogleAnalyticsCheck :', isGoogleAnalyticsCheck);
-  console.log('isFbPixelCheck:', isFbPixelCheck);
-  setCookie('cookieconsent_dismissed', 'yes', 10);
-  if (isGoogleAnalyticsCheck) setGoogleAnalyticsCookies();
-  if (isFbPixelCheck) setFacebookPixelCookies();
-  closeModal();
-  hideBanner();
-};
+const bannerNode = document.createElement('div');
+const settingsNode = document.createElement('div');
+
+i18next.init(
+  {
+    lng: 'en',
+    debug: true,
+    resources: {
+      en: {
+        translation: {
+          accept_all: 'Accept All',
+          settings: 'Settings',
+          save: 'Save',
+          banner_header: 'This website uses cookies',
+          banner_info_text:
+            'In order to offer you the most effective service possible, our site makes use of necessary cookies and similar technologies. With your permission we use statistic cookies to test and optimize the website. If you accept marketingcookies we share information with our partners for social media, advertising and analysis. Please let us know underneath which cookies we can use.',
+          settings_info:
+            'This site uses different types of cookies. Some cookies are placed by third party service that appear on our pages.',
+          necessary: 'Necessary',
+          necessary_description:
+            'Necessary cookies help make a website usable by enabling basic functions like page navigation and access to secure areas of the website. The website cannot function properly without these cookies.',
+          googleAnalytics: 'Google Analytics',
+          googleAnalytics_description:
+            'Google Analytics cookies help website owners to understand how visitors interact with websites by collecting and reporting information anonymously.',
+          otherCookie: 'Facebook Pixel',
+          otherCookie_description:
+            'Facebook Pixel cookies help website owners to understand how visitors interact with websites by collecting and reporting information anonymously.',
+        },
+      },
+      de: {
+        translation: {
+          accept_all: 'Akzeptiere alle',
+          settings: 'Einstellungen',
+          save: 'Speichern',
+          banner_header: 'Diese Website verwendet Cookies',
+          banner_info_text:
+            'Um Ihnen einen möglichst effektiven Service bieten zu können, verwendet unsere Website die erforderlichen Cookies und ähnliche Technologien. Mit Ihrer Erlaubnis verwenden wir Statistik-Cookies, um die Website zu testen und zu optimieren. Wenn Sie Marketingcookies akzeptieren, teilen wir Informationen mit unseren Partnern für soziale Medien, Werbung und Analyse. Bitte teilen Sie uns mit, unter welchen Cookies wir arbeiten können.',
+          settings_info:
+            'Diese Seite verwendet verschiedene Arten von Cookies. Einige Cookies werden von Drittanbietern platziert, die auf unseren Seiten erscheinen.',
+          necessary: 'Notwendig',
+          necessary_description:
+            'Notwendige Cookies helfen dabei, eine Website nutzbar zu machen, indem sie grundlegende Funktionen wie die Seitennavigation und den Zugriff auf sichere Bereiche der Website ermöglichen. Die Website kann ohne diese Cookies nicht ordnungsgemäß funktionieren.',
+          googleAnalytics: 'Google Analytics',
+          googleAnalytics_description:
+            'Google Analytics-Cookies helfen Website-Eigentümern zu verstehen, wie Besucher mit Websites interagieren, indem sie Informationen anonym sammeln und melden',
+          otherCookie: 'Facebook Pixel',
+          otherCookie_description:
+            'Facebook Pixel Cookies helfen Websitebesitzern zu verstehen, wie Besucher mit Websites interagieren, indem sie Informationen anonym sammeln und melden.',
+        },
+      },
+      es: {
+        translation: {
+          accept_all: 'Aceptar todo',
+          settings: 'Ajustes',
+          save: 'Ahorrar',
+          banner_header: 'Este sitio web utiliza cookies',
+          banner_info_text:
+            'Para ofrecerle el servicio más eficaz posible, nuestro sitio utiliza las cookies necesarias y tecnologías similares. Con su permiso, utilizamos cookies estadísticas para probar y optimizar el sitio web. Si acepta cookies de marketing, compartimos información con nuestros socios para redes sociales, publicidad y análisis. Háganos saber debajo de qué cookies podemos utilizar.',
+          settings_info:
+            'Este sitio utiliza diferentes tipos de cookies. Algunas cookies son colocadas por servicios de terceros que aparecen en nuestras páginas.',
+          necessary: 'Necesario',
+          necessary_description:
+            'Las cookies necesarias ayudan a que un sitio web sea utilizable al habilitar funciones básicas como la navegación de la página y el acceso a áreas seguras del sitio web. El sitio web no puede funcionar correctamente sin estas cookies.',
+          googleAnalytics: 'Google Analytics',
+          googleAnalytics_description:
+            'Las cookies de Google Analytics ayudan a los propietarios de sitios web a comprender cómo los visitantes interactúan con los sitios web al recopilar y reportar información de forma anónima.',
+          otherCookie: 'Facebook Pixel',
+          otherCookie_description:
+            'Las cookies de Facebook Pixel ayudan a los propietarios de sitios web a comprender cómo los visitantes interactúan con los sitios web al recopilar y reportar información de forma anónima.',
+        },
+      },
+    },
+  },
+  function (err, t) {
+    if (err) return console.log('something went wrong loading', err);
+    // init set content
+    updateContent();
+  },
+);
+
+function changeLng(lng) {
+  i18next.changeLanguage(lng);
+}
+
+i18next.on('languageChanged', () => {
+  updateContent();
+});
+
+function updateContent() {
+  const isCookieSet = getCookie('cookieconsent_dismissed');
+  console.log('isCookieSet', isCookieSet);
+  if (isCookieSet !== 'yes') {
+    bannerNode.innerHTML = bannerTemplate();
+    document.getElementsByTagName('body')[0].append(bannerNode);
+    const bannerContainer = document.getElementById('cookieBannerContainer');
+    bannerContainer.style.display = 'block';
+    settingsNode.innerHTML = settingsTemplate();
+    document.getElementsByTagName('body')[0].append(settingsNode);
+
+    const settingsModal = document.getElementById('settingsModal');
+    const settingsBtn = document.getElementById('settingsBtn');
+    const acceptAllBtn = document.getElementById('acceptAllBtn');
+    const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+    const closeSettingsIcon = document.getElementById('closeIcon');
+
+    settingsBtn.onclick = function () {
+      settingsModal.style.display = 'block';
+    };
+
+    closeSettingsIcon.onclick = function () {
+      closeModal();
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == settingsModal) {
+        closeModal();
+      }
+    };
+
+    function closeModal() {
+      settingsModal.style.display = 'none';
+    }
+
+    function hideBanner() {
+      bannerContainer.style.display = 'none';
+    }
+
+    saveSettingsBtn.onclick = function () {
+      var isGoogleAnalyticsCheck = document.getElementById('googleAnalyticsCheck').checked;
+      var isFbPixelCheck = document.getElementById('fbPixelCheck').checked;
+      console.log('isGoogleAnalyticsCheck :', isGoogleAnalyticsCheck);
+      console.log('isFbPixelCheck:', isFbPixelCheck);
+      setCookie('cookieconsent_dismissed', 'yes', 10);
+      if (isGoogleAnalyticsCheck) setGoogleAnalyticsCookies();
+      if (isFbPixelCheck) setFacebookPixelCookies();
+      closeModal();
+      hideBanner();
+    };
+
+    acceptAllBtn.onclick = function () {
+      setCookie('cookieconsent_dismissed', 'yes', 10);
+      setGoogleAnalyticsCookies();
+      setFacebookPixelCookies();
+      closeModal();
+      hideBanner();
+    };
+  }
+}

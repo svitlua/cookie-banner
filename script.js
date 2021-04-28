@@ -235,8 +235,6 @@
       saveSettingsBtn.onclick = function () {
         var isGoogleAnalyticsCheck = document.getElementById('googleAnalyticsCheck').checked;
         var isFbPixelCheck = document.getElementById('fbPixelCheck').checked;
-        console.log('isGoogleAnalyticsCheck :', isGoogleAnalyticsCheck);
-        console.log('isFbPixelCheck:', isFbPixelCheck);
         setCookie('cookieconsent_dismissed', 'yes', 10);
         if (isGoogleAnalyticsCheck) setGoogleAnalyticsCookies();
         if (isFbPixelCheck) setFacebookPixelCookies();
@@ -245,7 +243,7 @@
       };
 
       acceptAllBtn.onclick = function () {
-        setCookie('cookieconsent_dismissed', 'yes', 700); // set cookieconsent_dismissed for 2 years(aprox.700 days)
+        setCookie('cookieconsent_dismissed', 'yes', 730); // set cookieconsent_dismissed for 2 years(aprox.730 days)
         setGoogleAnalyticsCookies();
         setFacebookPixelCookies();
         closeModal();

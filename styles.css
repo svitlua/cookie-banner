@@ -47,7 +47,6 @@ body {
     position: fixed;
     z-index: 1; 
     margin: auto;
-    padding-top: 100px;
     left: 0;
     top: 0;
     width: 100%;
@@ -59,16 +58,10 @@ body {
 
 /* Modal Content */
 .modal-content {
-    position:absolute;
-    top:0;
-    bottom:0;
-    left:0;
-    right:0;
-    margin:auto; 
-    position: relative;
+    position:relative;
     background-color: #fefefe;
     margin: auto;
-    padding: 0;
+    margin-top: 100px;
     border: 1px solid #888;
     width: 50%;
     min-width: 300px;
@@ -78,6 +71,14 @@ body {
     animation-name: animatetop;
     animation-duration: 0.4s;
 }
+
+@media only screen and (max-width: 600px) {
+    .modal-content {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+  }
+
 .modal-header {
     padding: 10px 16px;
     background-color: #ccc;
@@ -104,16 +105,7 @@ body {
         opacity: 1;
     }
 }
-@keyframes animatetop {
-    from {
-        top: -300px;
-        opacity: 0;
-    }
-    to {
-        top: 0;
-        opacity: 1;
-    }
-}
+
 /* The Close Button */
 .close {
     color: white;

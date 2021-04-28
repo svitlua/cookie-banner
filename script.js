@@ -29,14 +29,14 @@
         ${i18next.t('necessary_description')}
         </p>
         <div>
-          <input type="checkbox" id="googleAnalyticsCheck" name="googleAnalyticsCheck" checked />
+          <input type="checkbox" id="googleAnalyticsCheck" name="googleAnalyticsCheck" />
           <label for="googleAnalyticsCheck">${i18next.t('googleAnalytics')}</label>
         </div>
         <p>
         ${i18next.t('googleAnalytics_description')}
         </p>
         <div>
-          <input type="checkbox" id="fbPixelCheck" name="fbPixelCheck" checked />
+          <input type="checkbox" id="fbPixelCheck" name="fbPixelCheck" />
           <label for="fbPixelCheck">${i18next.t('otherCookie')}</label>
         </div>
         <p>
@@ -235,7 +235,7 @@
       saveSettingsBtn.onclick = function () {
         var isGoogleAnalyticsCheck = document.getElementById('googleAnalyticsCheck').checked;
         var isFbPixelCheck = document.getElementById('fbPixelCheck').checked;
-        setCookie('cookieconsent_dismissed', 'yes', 10);
+        setCookie('cookieconsent_dismissed', 'yes', 720); // set cookieconsent_dismissed for 2 years(aprox.720 days)
         if (isGoogleAnalyticsCheck) setGoogleAnalyticsCookies();
         if (isFbPixelCheck) setFacebookPixelCookies();
         closeModal();
@@ -243,7 +243,7 @@
       };
 
       acceptAllBtn.onclick = function () {
-        setCookie('cookieconsent_dismissed', 'yes', 730); // set cookieconsent_dismissed for 2 years(aprox.730 days)
+        setCookie('cookieconsent_dismissed', 'yes', 720); // set cookieconsent_dismissed for 2 years(aprox.720 days)
         setGoogleAnalyticsCookies();
         setFacebookPixelCookies();
         closeModal();

@@ -188,7 +188,7 @@
   );
 
 
-  // UPDATE CONTECT WHEN LANGUAGE IS CHANGES
+  // UPDATE CONTENT WHEN LANGUAGE IS CHANGES
   i18next.on('languageChanged', () => {
     updateContent();
   });

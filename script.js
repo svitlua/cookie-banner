@@ -58,6 +58,7 @@
     gtag('js', new Date());
 
     gtag('config', 'G-335PYRBTD7');
+    gtag("config", 'UA-192857985-1');
   }
 
   // FB PIXEL COOKIE FUNCTION
